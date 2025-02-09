@@ -1,9 +1,18 @@
+"use client"
 import { IoSearch } from "react-icons/io5";
 import { IoMdNotifications } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
+
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export const Header = () => {
+  const links = [
+    { title: "Dashboard", href: "/" },
+    { title: "Shopping", href: "/shopping" },
+    { title: "Clientes", href: "/clients" },
+  ];
+  const pathName = usePathname();
   return (
     <div className=" w-screen mt-3">
       <header className="w-full max-w-screen-xl flex items-center justify-between">
@@ -14,15 +23,14 @@ export const Header = () => {
 
         <nav>
           <ul className="bg-gray-200 px-3 py-2 rounded-full shadow flex items-center gap-5">
-            <li className="bg-blue-700 text-white w-32 flex justify-center py-2 rounded-full">
-              <Link href="/">Dashboard</Link>
-            </li>
-            <li className="hover:bg-blue-700 hover:text-white  w-32 flex justify-center py-2 rounded-full">
-              <Link href="/shopping">Shopping</Link>
-            </li>
-            <li className="hover:bg-blue-700 hover:text-white  w-32 flex justify-center py-2 rounded-full">
-              <Link href="/clients">Clientes</Link>
-            </li>
+            {links.map((link) => {
+              const isActive = pathName === link.href;
+              return (
+                <li key={link.href} className={`${isActive ? "bg-blue-700 text-white": ""} w-32 flex justify-center py-2 rounded-full`}>
+                  <Link href={link.href}>{link.title}</Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
